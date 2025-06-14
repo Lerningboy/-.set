@@ -196,60 +196,61 @@
   <audio id="diceSound" src="https://www.myinstants.com/media/sounds/dice-roll.mp3" preload="auto"></audio>
 
   <script>
-    (() => {
-      const dice = document.getElementById('dice');
-      const result = document.getElementById('result');
-      const rollBtn = document.getElementById('rollBtn');
-      const resetBtn = document.getElementById('resetBtn');
-      const sound = document.getElementById('diceSound');
+  (() => {
+    const dice = document.getElementById('dice');
+    const result = document.getElementById('result');
+    const rollBtn = document.getElementById('rollBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const sound = document.getElementById('diceSound');
 
-      const faceRotations = {
-        1: { x: 0, y: 0 },
-        2: { x: -90, y: 0 },
-        3: { x: 0, y: 90 },
-        4: { x: 0, y: -90 },
-        5: { x: 90, y: 0 },
-        6: { x: 180, y: 0 },
-      };
+    // ✅ แก้การหมุนให้แม่นตรงกับหน้าลูกเต๋า
+    const faceRotations = {
+      1: { x: 0,   y: 0   },   // ด้านหน้า
+      2: { x: 0,   y: -90 },   // ด้านขวา
+      3: { x: 0,   y: 180 },   // ด้านหลัง
+      4: { x: 0,   y: 90  },   // ด้านซ้าย
+      5: { x: -90, y: 0   },   // ด้านบน
+      6: { x: 90,  y: 0   }    // ด้านล่าง
+    };
 
-      const getRandomFace = () => Math.floor(Math.random() * 6) + 1;
+    const getRandomFace = () => Math.floor(Math.random() * 6) + 1;
 
-      const rollDice = () => {
-        rollBtn.disabled = true;
-        resetBtn.disabled = true;
-        result.textContent = "กำลังทอย... 🎲";
+    const rollDice = () => {
+      rollBtn.disabled = true;
+      resetBtn.disabled = true;
+      result.textContent = "กำลังทอย... 🎲";
 
-        const face = getRandomFace();
+      const face = getRandomFace();
 
-        const spinsX = 360 * (Math.floor(Math.random() * 4) + 4); 
-        const spinsY = 360 * (Math.floor(Math.random() * 4) + 4);
+      const spinsX = 360 * (Math.floor(Math.random() * 4) + 4); 
+      const spinsY = 360 * (Math.floor(Math.random() * 4) + 4);
 
-        const targetRotationX = spinsX + faceRotations[face].x;
-        const targetRotationY = spinsY + faceRotations[face].y;
+      const targetRotationX = spinsX + faceRotations[face].x;
+      const targetRotationY = spinsY + faceRotations[face].y;
 
-        sound.currentTime = 0;
-        sound.play();
+      sound.currentTime = 0;
+      sound.play();
 
-        dice.style.transition = 'transform 2s cubic-bezier(0.22, 1, 0.36, 1)';
-        dice.style.transform = `rotateX(${targetRotationX}deg) rotateY(${targetRotationY}deg)`;
+      dice.style.transition = 'transform 2s cubic-bezier(0.22, 1, 0.36, 1)';
+      dice.style.transform = `rotateX(${targetRotationX}deg) rotateY(${targetRotationY}deg)`;
 
-        setTimeout(() => {
-          result.textContent = `🎉 ผลที่ได้คือ: ${face} 🎉`;
-          rollBtn.disabled = false;
-          resetBtn.disabled = false;
-        }, 2100);
-      };
+      setTimeout(() => {
+        result.textContent = `🎉 ผลที่ได้คือ: ${face} 🎉`;
+        rollBtn.disabled = false;
+        resetBtn.disabled = false;
+      }, 2100);
+    };
 
-      const resetDice = () => {
-        dice.style.transition = 'transform 1s ease-in-out';
-        dice.style.transform = 'rotateX(0deg) rotateY(0deg)';
-        result.textContent = 'พร้อมสำหรับการทอยไหม?';
-      };
+    const resetDice = () => {
+      dice.style.transition = 'transform 1s ease-in-out';
+      dice.style.transform = 'rotateX(0deg) rotateY(0deg)';
+      result.textContent = 'พร้อมสำหรับการทอยไหม?';
+    };
 
-      rollBtn.addEventListener('click', rollDice);
-      resetBtn.addEventListener('click', resetDice);
-    })();
-  </script>
-
+    rollBtn.addEventListener('click', rollDice);
+    resetBtn.addEventListener('click', resetDice);
+  })();
+</script>
+  
 </body>
 </html>
